@@ -4,6 +4,7 @@ import com.example.tp2.domain.Category;
 
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.engine.jdbc.Size;
 
 import javax.persistence.*;
 
@@ -20,12 +21,10 @@ public class Item {
 
     private String name;
 
-
-
+    private String imgUrl;
     private int stockQuantity;
 
     private int price;
-
 
 
     @ManyToOne

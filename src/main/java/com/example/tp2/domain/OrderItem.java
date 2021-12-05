@@ -17,6 +17,9 @@ public class OrderItem {
     @Column(name ="orderItem_id")
     private Long id;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name ="member_id")
+    private Member member;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name ="order_id")
@@ -25,6 +28,9 @@ public class OrderItem {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name ="item_id")
     private Item item;
+
+
+    private boolean buy;
 
     private int count;
 

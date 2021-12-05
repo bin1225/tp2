@@ -26,8 +26,13 @@ public class Order {
     @OneToMany(mappedBy = "order")
     private List<OrderItem> orderItems = new ArrayList<>();
 
+
     private OrderStatus status;
 
+    @ElementCollection
+    private List<Long> ids;
+
+    private boolean open;
     private LocalDateTime orderDate;
 
 }

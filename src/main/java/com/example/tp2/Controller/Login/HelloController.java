@@ -8,8 +8,10 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
@@ -36,30 +38,41 @@ public class HelloController {
     }
 
     @PostMapping("/main")
-    public String login(Member member, HttpServletResponse response) {
+    public String login(Member member, BindingResult bindingResult, HttpServletResponse response) {
         try {
             String userId = member.getUserId();
             String password = member.getPassword();
-
-            String id = String.valueOf(member.getId());
-            log.info("3");
+            Member byUserId = memberService.findByUserId(userId);
+            String id = String.valueOf(byUserId.getId());
+            log.info("아아앙");
+            log.info(id);
             if (loginRepository.login(userId, password)) {
                 log.info("로그인 성공1");
-                Cookie idCookie = new Cookie("id",id);
+                Cookie idCookie = new Cookie("memberId",id);
                 response.addCookie(idCookie);
                 //쿠키로 로그인 상태 유지
                 log.info("로그인 성공2");
-                return "main";
+                return "redirect:/main";
             } else {
                 log.info("로그인 실패-----------------");
+                bindingResult.reject("loginFail", "아이디 비밀번호가 맞지 않습니다.");
                 return "sign/login";
             }
         } catch (NullPointerException e) {
-            log.info("널포");
             return "sign/login";
         }
-
-
-
     }
+    @GetMapping("/logout")
+    public String logout(HttpServletResponse response) {
+        expireCookie(response,"memberId");
+        return "redirect:/";
+    }
+
+    private void expireCookie(HttpServletResponse response, String cookieName){
+        Cookie cookie = new Cookie(cookieName, null);
+        cookie.setMaxAge(0);
+        response.addCookie(cookie);
+        log.info("쿠키 지우기------------------------");
+    }
+
 }

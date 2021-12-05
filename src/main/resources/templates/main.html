@@ -33,7 +33,9 @@
                         </li>
                     </ul>
                     <form class="d-flex" th:action="@{/order/cart}">
-                        <a class="btn btn-primary" href="#"th:href="@{/login}" role="button">Login</a>
+
+                        <a class="btn btn-primary" href="#"th:href="@{/login}"role="button" th:if="${#request.getCookies()== null}">Login</a>
+                        <a class="btn btn-primary" th:href="@{/logout}" role="button" th:if="${#request.getCookies()!= null}">Logout</a>
                         <button class="btn btn-outline-dark" href="#"  type="submit">
                             <i class="bi-cart-fill me-1"></i>
                             Cart
@@ -63,7 +65,7 @@
                             <!-- Sale badge-->
                             <div class="badge bg-dark text-white position-absolute" style="top: 0.5rem; right: 0.5rem">Sale</div>
                             <!-- Product image-->
-                            <img class="card-img-top" src="https://dummyimage.com/450x300/dee2e6/6c757d.jpg" alt="..." />
+                            <img class="card-img-top" src="https://dummyimage.com/450x300/dee2e6/6c757d.jpg"th:src="${item.imgUrl}"  alt="..." />
                             <!-- Product details-->
                             <div class="card-body p-4">
                                 <div class="text-center">
@@ -84,7 +86,10 @@
                             <!-- Product actions-->
                             <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
                                 <div class="text-center"><a class="btn btn-outline-dark mt-auto" href="#" th:href="@{item/form/{id}(id=${item.id})}">상품 정보</a></div>
-                                <div class="text-center"><a class="btn btn-outline-dark mt-auto" href="#" th:href="@{order/addCart/{id}(id=${item.id})}">장바구니</a></div>
+<!--                                <div class="text-center"><a class="btn btn-outline-dark mt-auto" href="#" th:href="@{order/addCart/{id}(id=${item.id})}">장바구니</a></div>-->
+                                <form class="text-center" th:action="@{order/addCart/{id}(id=${item.id})}" method="post">
+                                    <button class="btn btn-outline-dark mt-auto">장바구니</button>
+                                </form>
                             </div>
 
                         </div>

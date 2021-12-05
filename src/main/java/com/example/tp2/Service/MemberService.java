@@ -22,7 +22,10 @@ public class MemberService {
         return member.getId();
     }
 
-
+    public Member findByUserId(String userId){
+        List<Member> byUserId = memberRepository.findByUserId(userId);
+        return byUserId.get(0);
+    }
 
     public Member findOne(Long id){
         return memberRepository.findOne(id);

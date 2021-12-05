@@ -24,6 +24,9 @@ public class Member {
 //    private Address address;
 
     @OneToMany(mappedBy = "member")
+    private List<OrderItem> orderItemList = new ArrayList<>();
+
+    @OneToMany(mappedBy = "member")
     private List<Order> orderList = new ArrayList<>();
 //    private Integer age;
 //    private String email;

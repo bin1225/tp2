@@ -11,6 +11,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import javax.annotation.PostConstruct;
 import java.util.List;
 
 @Controller
@@ -21,6 +22,16 @@ public class MemberController {
         private final MemberService memberService;
         private final LoginService loginRepository;
 
+
+        @PostConstruct
+        public void createMember(){
+                Member member = new Member();
+                member.setUserId("123");
+                member.setPassword("123");
+                member.setName("kimgyubin");
+                memberService.join(member);
+        }
+
         @GetMapping("/signin")
         public String signForm(Model model){
                 model.addAttribute("member",new Member());
@@ -29,11 +40,8 @@ public class MemberController {
 
         @PostMapping("/members/new")
         public String regist(Member member) {
-                log.info("member");
-                String userId = member.getUserId();
-                log.info(userId);
+
                 memberService.join(member);
-                log.info(String.valueOf(member.getId()));
                 return "sign/login";
         }
 

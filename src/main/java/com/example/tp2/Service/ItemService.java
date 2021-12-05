@@ -19,9 +19,8 @@ public class ItemService {
 
 
 
-    public Long save(Item item){
-        itemRepository.save(item);
-        return item.getId();
+    public void save(Item... items){
+        itemRepository.save(items);
     }
 
     public Item findOne(Long id){
