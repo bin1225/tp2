@@ -25,7 +25,7 @@ public class H2MemberRepositroy implements MemberRepository {
     }
 
 
-    public List<Member> findByUserId(String userId) {
+    public List findByUserId(String userId) {
         return em.createQuery("select m from Member m where m.userId=:userId")
                 .setParameter("userId", userId)
                 .getResultList();

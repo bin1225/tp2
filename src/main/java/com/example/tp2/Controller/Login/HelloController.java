@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
+import java.util.Optional;
 
 @Controller
 @Slf4j
@@ -42,8 +43,8 @@ public class HelloController {
         try {
             String userId = member.getUserId();
             String password = member.getPassword();
-            Member byUserId = memberService.findByUserId(userId);
-            String id = String.valueOf(byUserId.getId());
+            Optional<Member> byUserId = memberService.findByUserId(userId);
+            String id = String.valueOf(byUserId.get().getId());
             log.info("아아앙");
             log.info(id);
             if (loginRepository.login(userId, password)) {

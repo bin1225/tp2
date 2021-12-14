@@ -16,26 +16,28 @@
     <body>
         <!-- Navigation-->
         <nav class="navbar navbar-expand-lg navbar-light bg-light" >
-                <a class="navbar-brand" href="#!">BIN Shop</a>
+                <a class="navbar-brand" href="#!" th:href="@{/main}">BIN Shop</a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-4">
                         <li class="nav-item"><a class="nav-link active" aria-current="page" href="#!" th:href="@{/main}">Home</a></li>
-                        <li class="nav-item"><a class="nav-link" href="#!">About</a></li>
+                        <li class="nav-item"><a class="nav-link" th:href="@{/about}">About</a></li>
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Shop</a>
                             <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                <li><a class="dropdown-item" href="#!">All Products</a></li>
+                                <li><a class="dropdown-item" href="/main">All Products</a></li>
                                 <li><hr class="dropdown-divider" /></li>
-                                <li><a class="dropdown-item" href="#!">Popular Items</a></li>
-                                <li><a class="dropdown-item" href="#!">New Arrivals</a></li>
+                                <li><a class="dropdown-item" th:href="@{/category/top}">Top</a></li>
+                                <li><a class="dropdown-item" th:href="@{/category/trouser}">Trouser</a></li>
+                                <li><a class="dropdown-item" th:href="@{/category/shoe}">Shoe</a></li>
                             </ul>
                         </li>
                     </ul>
                     <form class="d-flex" th:action="@{/order/cart}">
 
                         <a class="btn btn-primary" href="#"th:href="@{/login}"role="button" th:if="${#request.getCookies()== null}">Login</a>
-                        <a class="btn btn-primary" th:href="@{/logout}" role="button" th:if="${#request.getCookies()!= null}">Logout</a>
+                        <a class="btn btn-primary " th:href="@{/logout}" role="button" th:if="${#request.getCookies()!= null}">Logout</a>
+                        <a class="btn btn-outline-dark active" th:href="@{/myPage}" role="button" th:if="${#request.getCookies()!= null}">MyPage</a>
                         <button class="btn btn-outline-dark" href="#"  type="submit">
                             <i class="bi-cart-fill me-1"></i>
                             Cart
@@ -85,9 +87,9 @@
                             </div>
                             <!-- Product actions-->
                             <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
-                                <div class="text-center"><a class="btn btn-outline-dark mt-auto" href="#" th:href="@{item/form/{id}(id=${item.id})}">상품 정보</a></div>
+                                <div class="text-center"><a class="btn btn-outline-dark mt-auto" href="#" th:href="@{/item/form/{id}(id=${item.id})}">상품 정보</a></div>
 <!--                                <div class="text-center"><a class="btn btn-outline-dark mt-auto" href="#" th:href="@{order/addCart/{id}(id=${item.id})}">장바구니</a></div>-->
-                                <form class="text-center" th:action="@{order/addCart/{id}(id=${item.id})}" method="post">
+                                <form class="text-center" th:action="@{/order/addCart/{id}(id=${item.id})}" method="post">
                                     <button class="btn btn-outline-dark mt-auto">장바구니</button>
                                 </form>
                             </div>

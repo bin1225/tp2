@@ -8,7 +8,11 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
+import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import javax.annotation.PostConstruct;
@@ -39,7 +43,35 @@ public class MemberController {
         }
 
         @PostMapping("/members/new")
-        public String regist(Member member) {
+        public String regist(@ModelAttribute Member member, BindingResult bindingResult) {
+
+
+                //검증
+                log.info(member.getName());
+                log.info(member.getUserId());
+                log.info(member.getPassword());
+                if (member.getName().length() == 0 || member.getUserId().length()==0 || member.getPassword().length() == 0)
+                {
+                        bindingResult.addError(new ObjectError("member","값을 모두 입력하십시오."));
+                }
+                if(memberService.findByUserId(member.getUserId()).isPresent()){
+                        bindingResult.addError(new FieldError("member","userId",member.getUserId(),false,null,null,"이미 중복된 아이디가 존재합니다."));
+                        log.info("userId={}",member.getUserId());
+                }
+                if(member.getPassword().length()<8){
+                        bindingResult.addError(new FieldError("member","password",member.getPassword(),false,null,null,"비밀번호는 8자리 이상이어야 합니다. "));
+                }
+
+
+
+
+                if(bindingResult.hasErrors())
+                {
+                        log.info("errors={}",bindingResult);
+
+                        return "/sign/signin";
+                }
+
 
                 memberService.join(member);
                 return "sign/login";

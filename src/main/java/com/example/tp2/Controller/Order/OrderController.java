@@ -14,6 +14,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.dom4j.rule.Mode;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -36,22 +38,33 @@ public class OrderController {
     private final MemberService memberService;
 
     @GetMapping("/order/cart")
-    public String cart(Model model, HttpServletRequest request){
+    public String cart(Model model,HttpServletRequest request){
 
         Cookie[] cookies = request.getCookies();
-        Cookie c = cookies[0];
+        try {
+            Cookie c = cookies[0];
+            Long userId = Long.valueOf(c.getValue());
+
+            Member user = memberService.findOne(userId);
 
 
-        Long userId = Long.valueOf(c.getValue());
-        Member user = memberService.findOne(userId);
+
+            List<OrderItem> orderItems = orderService.getOrderItems(userId);
+            model.addAttribute("orderItems",orderItems);
+
+            Order order = new Order();
+            model.addAttribute("order",order);
+        }catch (NullPointerException e){
+            Member member = new Member();
+            model.addAttribute("member",member);
+            return "sign/login";
+        }
 
 
 
-        List<OrderItem> orderItems = orderService.getOrderItems(userId);
-        model.addAttribute("orderItems",orderItems);
 
-        Order order = new Order();
-        model.addAttribute("order",order);
+
+
 
         return "/order/cart";
     }

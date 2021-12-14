@@ -37,6 +37,11 @@ public class ItemRepository {
                 .getResultList();
     }
 
+    public List<Item> findByCategory(String categoryName){
+        return em.createQuery("select i from Item i where i.category =: categoryName")
+                .setParameter("categoryName",categoryName)
+                .getResultList();
+    }
 
 }
 

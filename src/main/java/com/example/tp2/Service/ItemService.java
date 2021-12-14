@@ -31,4 +31,7 @@ public class ItemService {
         return itemRepository.getItemList();
     }
 
+    public List<Item> findByCategory(String categoryName){
+        return itemRepository.findByCategory(categoryName);
+    }
 }

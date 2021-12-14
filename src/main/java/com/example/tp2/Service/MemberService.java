@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -22,9 +23,9 @@ public class MemberService {
         return member.getId();
     }
 
-    public Member findByUserId(String userId){
+    public Optional<Member> findByUserId(String userId){
         List<Member> byUserId = memberRepository.findByUserId(userId);
-        return byUserId.get(0);
+        return byUserId.stream().findFirst();
     }
 
     public Member findOne(Long id){

@@ -1,10 +1,7 @@
 package com.example.tp2.domain.item;
 
-import com.example.tp2.domain.Category;
-
 import lombok.Getter;
 import lombok.Setter;
-import org.hibernate.engine.jdbc.Size;
 
 import javax.persistence.*;
 
@@ -26,17 +23,16 @@ public class Item {
 
     private int price;
 
-
-    @ManyToOne
-    @JoinColumn(name = "category_id")
-    private Category category;
+    private String category;
 
     protected Item(){
 
     }
-    public Item(String name,Integer price) {
+
+    public Item(String name,Integer price,String category) {
         this.name = name;
         this.price = price;
+        this.category=category;
     }
 
 
