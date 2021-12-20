@@ -23,6 +23,14 @@ public class LoginService {
         if (byUserId.size() == 0) {
             return false;
         }
+        Member member = byUserId.get(0);
+        log.info(member.getUserId());
+        log.info(member.getPassword());
+        log.info(password);
+        if(!member.getPassword().equals(password)){
+            log.info("비밀번호가 다릅니다.");
+            return false;
+        }
 
         return true;
     }

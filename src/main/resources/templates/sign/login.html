@@ -41,12 +41,22 @@
 
     <div class="form-floating">
       <input type="text" th:field="*{userId}" class="form-control" id="floatingInput" placeholder="Id">
+      <span class="form-check-input" th:errors="*{userId}"></span>
     </div>
     <div class="form-floating">
       <input type="password" th:field="*{password}" class="form-control" id="floatingPassword" placeholder="Password">
+      <span class="form-control-plaintext " th:errors="*{password}"></span>
     </div>
 
-    <div class="checkbox mb-3">
+    <div th:if="${#fields.hasGlobalErrors()}">
+      <p th:class="form-check-inline" th:each="err:${#fields.globalErrors()}" th:text="${err}"></p>
+    </div>
+    <div th:if="${objectError}">
+      <p th:class="form-check-inline"  th:text="${objectError}"></p>
+    </div>
+
+
+    <div class="checkbox mb-5">
       <label>
         <input type="checkbox" value="remember-me">아이디 저장
       </label>

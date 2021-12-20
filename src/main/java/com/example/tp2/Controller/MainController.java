@@ -34,6 +34,6 @@ public class MainController {
 
         model.addAttribute(member);
 
-        return "";
+        return "members/myPage";
     }
 }

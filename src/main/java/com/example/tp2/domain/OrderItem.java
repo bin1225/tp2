@@ -21,20 +21,24 @@ public class OrderItem {
     @JoinColumn(name ="member_id")
     private Member member;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
     @JoinColumn(name ="order_id")
     private Order order;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name ="item_id")
     private Item item;
 
 
-    private boolean buy;
+    private boolean ordered;
 
     private int count;
 
     private int orderPrice;
+
+    public void setOrderPrice(int itemPrice, int itemCount){
+        this.orderPrice = itemPrice * itemCount;
+    }
 
 
 }

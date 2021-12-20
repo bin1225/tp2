@@ -24,6 +24,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -38,7 +39,7 @@ public class OrderController {
     private final MemberService memberService;
 
     @GetMapping("/order/cart")
-    public String cart(Model model,HttpServletRequest request){
+    public String cart(Model model,HttpServletRequest request) {
 
         Cookie[] cookies = request.getCookies();
         try {
@@ -48,78 +49,112 @@ public class OrderController {
             Member user = memberService.findOne(userId);
 
 
-
             List<OrderItem> orderItems = orderService.getOrderItems(userId);
-            model.addAttribute("orderItems",orderItems);
+            List<OrderItem> ois = new ArrayList<>();
+
+            for(int i = 0 ; i< orderItems.size();i++){
+                if(!orderItems.get(i).isOrdered())
+                {
+                    ois.add(orderItems.get(i));
+                }
+            }
+
+            model.addAttribute("orderItems", ois);
 
             Order order = new Order();
-            model.addAttribute("order",order);
-        }catch (NullPointerException e){
+            model.addAttribute("order", order);
+        } catch (NullPointerException e) {
             Member member = new Member();
-            model.addAttribute("member",member);
+            model.addAttribute("member", member);
+            model.addAttribute("objectError",new ObjectError("member", "로그인이 필요한 서비스입니다."));
+
             return "sign/login";
         }
-
-
-
-
-
 
 
         return "/order/cart";
     }
 
     @PostMapping("/order/addCart/{itemId}")
-    public String addCart(@PathVariable("itemId") Long itemId,HttpServletRequest request){
+    public String addCart(@PathVariable("itemId") Long itemId, HttpServletRequest request, Model model) {
+        try {
+            Cookie[] cookies = request.getCookies();
+            Cookie c = cookies[0];
+            Long userId = Long.valueOf(c.getValue());
+            Member member = memberService.findOne(userId);
 
-        Cookie[] cookies = request.getCookies();
-        Cookie c = cookies[0];
-        Long userId = Long.valueOf(c.getValue());
-        Member member = memberService.findOne(userId);
+
+            OrderItem orderItem = new OrderItem();
+            Item item = itemService.findOne(itemId);
 
 
-        OrderItem orderItem = new OrderItem();
-        orderItem.setItem(itemService.findOne(itemId));
-        orderItem.setMember(member);
+            try {
+                item.removeStockQuantity(1);
+            } catch (IllegalStateException e) {
+                //메시지 출력하기
+            }
 
-        orderService.saveOrderItem(orderItem);
+            orderItem.setItem(item);
+            orderItem.setMember(member);
+            orderItem.setOrderPrice(item.getPrice(),1);
+            orderItem.setCount(1);
+            orderService.saveOrderItem(orderItem);
 
-        return "redirect:/main";
+
+            return "redirect:/main";
+        } catch (NullPointerException e) {
+            Member member = new Member();
+            model.addAttribute("member", member);
+            model.addAttribute(new ObjectError("member","로그인이 필요한 서비스입니다."));
+            return "sign/login";
+        }
     }
-    @PostMapping("/item/form/order/addCart/{itemId}")
-    public String addCart2(@PathVariable("itemId") Long itemId,HttpServletRequest request){
 
-        Cookie[] cookies = request.getCookies();
-        Cookie c = cookies[0];
-        Long userId = Long.valueOf(c.getValue());
-        Member member = memberService.findOne(userId);
-        int count = Integer.valueOf(request.getParameter("count"));
-        Item item = itemService.findOne(itemId);
+    @PostMapping("/item/form/order/addCart/{itemId}")
+    public String addCart2(@PathVariable("itemId") Long itemId, HttpServletRequest request,Model model) {
 
         try {
-            item.removeStockQuantity(count);
-        }catch (IllegalStateException e){
-            //메시지 출력하기
+            Cookie[] cookies = request.getCookies();
+            Cookie c = cookies[0];
+            Long userId = Long.valueOf(c.getValue());
+            Member member = memberService.findOne(userId);
+            int count = Integer.valueOf(request.getParameter("count"));
+            Item item = itemService.findOne(itemId);
+
+            try {
+                item.removeStockQuantity(count);
+            } catch (IllegalStateException e) {
+                //메시지 출력하기
+            }
+            OrderItem orderItem = new OrderItem();
+            orderItem.setItem(item);
+            orderItem.setMember(member);
+            orderItem.setCount(count);
+            orderItem.setOrderPrice(item.getPrice(),count);
+
+            orderService.saveOrderItem(orderItem);
+
+            return "redirect:/main";
+        } catch (NullPointerException e) {
+            Member member = new Member();
+            model.addAttribute("member", member);
+            model.addAttribute(new ObjectError("member","로그인이 필요한 서비스입니다."));
+            return "sign/login";
         }
-        OrderItem orderItem = new OrderItem();
-        orderItem.setItem(item);
-        orderItem.setMember(member);
-        orderItem.setCount(count);
-
-        orderService.saveOrderItem(orderItem);
-
-        return "redirect:/main";
     }
 
     @PostMapping("/order")
     public String order(@ModelAttribute Order order, HttpServletRequest request) {
         List<Long> ids = order.getIds();
         List<OrderItem> orderItems = order.getOrderItems();
-        for (int i = 0; i < ids.size(); i++)
-        {
+        for (int i = 0; i < ids.size(); i++) {
             OrderItem orderItem = orderRepository.findOrderItem(ids.get(i));
+
+            orderItem.setOrder(order);
+            orderItem.setOrdered(true);
             orderItems.add(orderItem);
         }
+
 
         Cookie[] cookies = request.getCookies();
         Cookie c = cookies[0];
@@ -128,7 +163,7 @@ public class OrderController {
 
         order.setMember(member);
         orderRepository.regist(order);
-        log.info(order.getMember().getName());
+
         return "redirect:/main";
     }
 }

@@ -28,6 +28,9 @@ public class ItemRepository {
             em.persist(item);
         }
     }
+    public void delete(Item item) {
+        em.remove(item);
+    }
     public Item findOne(Long id){
         return em.find(Item.class, id);
     }

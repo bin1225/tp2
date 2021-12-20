@@ -23,9 +23,13 @@ public class ItemService {
         itemRepository.save(items);
     }
 
+    public void delete(Item item){
+        itemRepository.delete(item);
+    }
     public Item findOne(Long id){
         return itemRepository.findOne(id);
     }
+
 
     public List<Item> findAll(){
         return itemRepository.getItemList();

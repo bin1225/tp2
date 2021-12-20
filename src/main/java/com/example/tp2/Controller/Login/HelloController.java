@@ -9,6 +9,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
+import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 
@@ -40,29 +42,41 @@ public class HelloController {
 
     @PostMapping("/main")
     public String login(Member member, BindingResult bindingResult, HttpServletResponse response) {
-        try {
+
+
+
+            if(member.getUserId()==""){
+                bindingResult.addError(new ObjectError("member","아이디를 입력하십시오."));
+                return "sign/login";
+            }
+            if(member.getPassword()==""){
+                bindingResult.addError(new ObjectError("member","비밀번호를 입력하십시오."));
+            return "sign/login";
+            }
             String userId = member.getUserId();
             String password = member.getPassword();
             Optional<Member> byUserId = memberService.findByUserId(userId);
+            if(!byUserId.isPresent()){
+                bindingResult.addError(new FieldError("member","userId",member.getUserId(),false,null,null,"아이디가 잘못되었습니다."));
+            }
+            if (!loginRepository.login(userId, password)){
+                bindingResult.addError(new FieldError("member","password",member.getPassword(),false,null,null,"비밀번호가 잘못되었습니다."));
+            }
+            if(bindingResult.hasErrors())
+            {
+                return "sign/login";
+            }
+
             String id = String.valueOf(byUserId.get().getId());
-            log.info("아아앙");
-            log.info(id);
             if (loginRepository.login(userId, password)) {
-                log.info("로그인 성공1");
                 Cookie idCookie = new Cookie("memberId",id);
                 response.addCookie(idCookie);
                 //쿠키로 로그인 상태 유지
-                log.info("로그인 성공2");
                 return "redirect:/main";
-            } else {
-                log.info("로그인 실패-----------------");
-                bindingResult.reject("loginFail", "아이디 비밀번호가 맞지 않습니다.");
-                return "sign/login";
             }
-        } catch (NullPointerException e) {
             return "sign/login";
         }
-    }
+
     @GetMapping("/logout")
     public String logout(HttpServletResponse response) {
         expireCookie(response,"memberId");

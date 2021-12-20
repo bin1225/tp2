@@ -62,9 +62,6 @@ public class MemberController {
                         bindingResult.addError(new FieldError("member","password",member.getPassword(),false,null,null,"비밀번호는 8자리 이상이어야 합니다. "));
                 }
 
-
-
-
                 if(bindingResult.hasErrors())
                 {
                         log.info("errors={}",bindingResult);

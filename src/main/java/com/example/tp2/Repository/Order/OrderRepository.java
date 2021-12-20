@@ -22,6 +22,10 @@ public class OrderRepository {
         return order.getId();
     }
 
+    public void remove(OrderItem orderItem){
+        em.remove(orderItem);
+    }
+
     public Order findOne(Long id){
         return em.find(Order.class, id);
     }
