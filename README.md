@@ -1,6 +1,19 @@
 # tp2
-2022 건국대 전과 포트제출용 웹 페이지 쇼핑몰 Toy Project 
+2022 건국대 전과 포트제출용 웹 페이지 쇼핑몰 Toy Project
 
+인프런 실전! 스프링 부트와 JPA 활용1 - 웹 애플리케이션 개발 강의에서 진행했던 프로젝트를 참고하여, 스스로 재구성하고 기능을 확장한 프로젝트 입니다.
+
+### 기존 기능 
+ - 회원 등록, 조회
+ - 상품 등록, 수정 조회
+ - 주문 등록, 조회
+
+### 추가 기능
+ - 로그인 및 검증
+ - 장바구니
+ - 카테고리별 아이템 분류
+ - 관리자 전용 페이지를 통한 관리 기능
+ - bootstrap 오픈 소스, thymeleaf를 이용한 실제 view 구성
 
 # 프로젝트 구성 
 *  개발환경 : Intellij
@@ -21,6 +34,8 @@
 * Thymeleaf
 * BootStrap
 
+## 패키지 구조
+![image](https://user-images.githubusercontent.com/89298874/149379187-9f0205c8-409b-424a-8e41-3f088084a0cc.png)
 
 
 ## 주요기능
@@ -32,7 +47,7 @@
 ### 로그인 화면
 ![image](https://user-images.githubusercontent.com/89298874/149172043-754be3b7-425c-4337-9db2-e414f83547e1.png)
 * 쿠키 생성을 통한 로그인 기능
-* thymeleaf, object error를 통해 로그인에 실패하면 아이디, 비밀번호에 대해 오류 출력
+* thymeleaf의 validation을 통해 로그인 검증 및 실패 시 아이디, 비밀번호에 대해 오류 출력
 
 ### 회원가입
 ![image](https://user-images.githubusercontent.com/89298874/149177218-6118e911-f044-4b29-bc6d-fd51a8e654e9.png)
@@ -54,7 +69,7 @@
 * 주문 확인
   * ![image](https://user-images.githubusercontent.com/89298874/149178112-831c1a91-e715-420e-9ea9-7a42bb140071.png)
 * 회원 목록 확인
-* 상품 등록 및 목록 확인
+* 상품 등록, 수정, 목록 확인
 ![image](https://user-images.githubusercontent.com/89298874/149178253-2e3ebf0e-cb9b-4490-9cf2-f4c3a1c92f62.png)
 
 
