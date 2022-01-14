@@ -63,6 +63,7 @@
 ## 상품 화면
 ![image](https://user-images.githubusercontent.com/89298874/149172550-9b858bcc-fcf4-4e56-adb5-ea1222bc9e56.png)
 * #### 수량을 지정하여 장바구니에 상품 추가 및 상품 정보 전달
+* #### 주문된 수량만큼 아이템 정보의 재고 수량 업데이트
 ## 장바구니
 ![image](https://user-images.githubusercontent.com/89298874/149172276-120adb9a-d3fd-4842-8b95-43f4cd526627.png)
 * #### 장바구니에 추가된 아이템들 중 check 박스로 선택하여 주문을 진행
