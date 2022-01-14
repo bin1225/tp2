@@ -38,7 +38,7 @@
 ![image](https://user-images.githubusercontent.com/89298874/149379187-9f0205c8-409b-424a-8e41-3f088084a0cc.png)
 
 ### 도메인
-![image](https://user-images.githubusercontent.com/89298874/149387665-9ec7c9c2-8798-431d-a506-b68f85e43afd.png)
+![image](https://user-images.githubusercontent.com/89298874/149442537-d48c9e62-ffb3-40f4-9631-e367a37b9836.png)
 - 회원은 주문시 order 객체를 생성한다.
 - 주문과 상품과의 다대다 관계에 대한 매핑 테이블로 orderItem 을 이용한다.
 - orderItem 객체에 item, 수량, 가격 정보를 입력한다. 
