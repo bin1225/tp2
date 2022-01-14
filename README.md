@@ -69,6 +69,10 @@
 * #### 장바구니에 추가된 아이템들 중 check 박스로 선택하여 주문을 진행
 * #### 선택되어 주문된 아이템들은 장바구니에서 제거
 
+## About
+![image](https://user-images.githubusercontent.com/89298874/149447904-89c098ac-fdbe-4112-9233-b90a3de4fcf0.png)
+
+
 ## 관리자 페이지
 ![image](https://user-images.githubusercontent.com/89298874/149176030-85b6577f-be01-45c2-98ce-a6bc28a389d3.png)
 * #### 회원 목록 확인
