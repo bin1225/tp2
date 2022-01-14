@@ -1,0 +1,33 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/header :: header"/>
+<body>
+<div class="container">
+    <div th:replace="admin/fragments/bodyHeader :: bodyHeader"/>
+    <div>
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th>category</th>
+                <th>상품명</th>
+                <th>상품 가격</th>
+                <th>수량</th>
+                <th>주문 가격</th>
+                <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="orderItem : ${orderItems}">
+                <td th:text="${orderItem.item.category}"></td>
+                <td th:text="${orderItem.item.name}"></td>
+                <td th:text="${orderItem.item.price}"></td>
+                <td th:text="${orderItem.count}"></td>
+                <td th:text="${orderItem.orderPrice}"></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <div th:replace="fragments/footer :: footer"/>
+</div> <!-- /container -->
+</body>
+</html>

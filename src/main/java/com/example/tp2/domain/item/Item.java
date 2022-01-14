@@ -1,9 +1,14 @@
 package com.example.tp2.domain.item;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
+
 import lombok.Getter;
 import lombok.Setter;
-
-import javax.persistence.*;
 
 @Entity
 @Getter
@@ -11,44 +16,40 @@ import javax.persistence.*;
 @Inheritance(strategy = InheritanceType.JOINED)// 상속 구현 전략 선택
 public class Item {
 
-    @Id
-    @GeneratedValue
-    @Column(name ="item_id")
-    private Long id;
+	@Id
+	@GeneratedValue
+	@Column(name = "item_id")
+	private Long id;
 
-    private String name;
+	private String name;
 
-    private String imgUrl;
-    private int stockQuantity;
+	private String imgUrl;
+	private int stockQuantity;
 
-    private int price;
+	private int price;
 
-    private String category;
+	private String category;
 
-    protected Item(){
+	protected Item() {
 
-    }
+	}
 
-    public Item(String name,Integer price,String category) {
-        this.name = name;
-        this.price = price;
-        this.category=category;
-    }
+	public Item(String name, Integer price, String category) {
+		this.name = name;
+		this.price = price;
+		this.category = category;
+	}
 
+	public void addStockQuantity(int count) {
+		this.stockQuantity += count;
+	}
 
+	public void removeStockQuantity(int count) {
+		if (count > stockQuantity) {
+			throw new IllegalStateException("재고가 부족합니다");
+		} else {
+			this.stockQuantity -= count;
+		}
 
-    public void addStockQuantity(int count){
-        this.stockQuantity +=count;
-    }
-
-    public void removeStockQuantity (int count){
-        if(count>stockQuantity)
-        {
-            throw new IllegalStateException("재고가 부족합니다");
-        }
-        else {
-            this.stockQuantity -=count;
-        }
-
-    }
+	}
 }

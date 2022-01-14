@@ -5,30 +5,30 @@
 <div class="container">
     <div th:replace="fragments/bodyHeader :: bodyHeader"/>
     <div>
-        <form th:action="@{/order}" method="post" th:object="${order}">
-        <table class="table table-striped">
-            <thead>
-            <tr>
-                <th>선택</th>
-                <th>상품 이름</th>
-                <th>상품 가격</th>
-                <th>상품 수량</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr th:each="orderItem : ${orderItems}">
+        <form method="post" th:action="@{/order}" th:object="${order}">
+            <table class="table table-striped">
+                <thead>
+                <tr>
+                    <th>선택</th>
+                    <th>상품 이름</th>
+                    <th>상품 가격</th>
+                    <th>상품 수량</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="orderItem : ${orderItems}">
 
-                <td class="form-check">
-                    <input type="checkbox" class="form-check-input" th:field="*{ids}" th:value="${orderItem.id}">
-                </td>
-                <td th:text="${orderItem.item.name}"> </td>
-                <td th:text="${orderItem.item.price}"></td>
-                <td th:text="${orderItem.count}"></td>
+                    <td class="form-check">
+                        <input class="form-check-input" th:field="*{ids}" th:value="${orderItem.id}" type="checkbox">
+                    </td>
+                    <td th:text="${orderItem.item.name}"></td>
+                    <td th:text="${orderItem.item.price}"></td>
+                    <td th:text="${orderItem.count}"></td>
 
-            </tr>
-            </tbody>
-        </table>
-            <button class="w-100 btn btn-lg btn-primary"> 주문하기 </button>
+                </tr>
+                </tbody>
+            </table>
+            <button class="w-100 btn btn-lg btn-primary"> 주문하기</button>
         </form>
     </div>
     <div th:replace="fragments/footer :: footer"/>

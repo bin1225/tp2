@@ -1,9 +1,8 @@
 package com.example.tp2;
 
-import com.example.tp2.domain.item.Item;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.web.bind.annotation.GetMapping;
+
 //cd C:\javaProject\H2\bin
 @SpringBootApplication
 public class Tp2Application {

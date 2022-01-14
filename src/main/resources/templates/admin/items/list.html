@@ -1,9 +1,9 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org">
-<head th:replace="fragments/header :: header" />
+<head th:replace="fragments/header :: header"/>
 <body>
 <div class="container">
-    <div th:replace="admin/fragments/bodyHeader :: bodyHeader" />
+    <div th:replace="admin/fragments/bodyHeader :: bodyHeader"/>
     <div>
         <table class="table table-striped">
             <thead>
@@ -24,13 +24,13 @@
                 <td th:text="${item.price}"></td>
                 <td th:text="${item.stockQuantity}"></td>
                 <td>
-                    <a href="#" th:href="@{/items/{id}/edit (id=${item.id})}"
-                       class="btn btn-primary" role="button">수정</a>
+                    <a class="btn btn-primary" href="#"
+                       role="button" th:href="@{/items/{id}/edit (id=${item.id})}">수정</a>
                 </td>
                 <td>
-                <form method="post"th:action="@{items/{id}/delete(id=${item.id})}">
-                    <button class="btn btn-danger" type="submit">삭제</button>
-                </form>
+                    <form method="post" th:action="@{items/{id}/delete(id=${item.id})}">
+                        <button class="btn btn-danger" type="submit">삭제</button>
+                    </form>
                 </td>
             </tr>
             </tbody>
